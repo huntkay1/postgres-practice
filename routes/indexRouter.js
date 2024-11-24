@@ -1,17 +1,12 @@
 const { Router } = require('express');
+const { getUsernames, createUsernameGet, createUsernamePost } = require('../controllers/indexController')
 
 const indexRouter = Router();
 
-indexRouter.get('/', (req, res) => {
-    console.log('usernames will be logged here')
-})
+indexRouter.get('/', getUsernames)
 
-indexRouter.get('/new', (req, res) => {
-    res.render('form')
-})
+indexRouter.get('/new', createUsernameGet)
 
-indexRouter.post('/new', (req, res) => {
-    console.log('usernmae to be saved: ', req.body.username)
-})
+indexRouter.post('/new', createUsernamePost)
 
 module.exports = indexRouter;
