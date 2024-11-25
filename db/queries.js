@@ -11,5 +11,13 @@ async function insertUsername(username) {
     await pool.query('INSERT INTO usernames (username) VALUES ($1)', [username]);
 }
 
-module.exports = { getAllUsernames, insertUsername };
+async function getFilteredUsernames(username) {
+    const result = await pool.query(
+        'SELECT * FROM usernames WHERE username ILIKE $1',
+        [`%${username}%`] // Parameterized query with a wildcard
+    );
+    return result.rows; // Return the rows matching the query
+}
+
+module.exports = { getAllUsernames, insertUsername, getFilteredUsernames };
 

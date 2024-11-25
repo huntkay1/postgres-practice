@@ -2,9 +2,16 @@ const create = require('prompt-sync');
 const db = require('../db/queries');
 
 async function getUsernames(req, res) {
-    const usernames = await db.getAllUsernames();
-    console.log('Usernames: ', usernames);
-    res.send( usernames.map(user => user.username).join(', '));
+    const search = req.query.search; // Get 'search' query parameter
+    let usernames;
+    if (search) {
+        // If search is provided, fetch filtered results
+        usernames = await db.getFilteredUsernames(search);
+    } else {
+        // Otherwise, fetch all usernames
+        usernames = await db.getAllUsernames();
+    }
+    res.send(usernames.map(user => user.username).join(', '));
 }
 
 async function createUsernameGet(req, res) {
@@ -17,8 +24,9 @@ async function createUsernamePost(req, res) {
     res.redirect('/');
 }
 
+
 module.exports = {
     getUsernames,
     createUsernameGet,
-    createUsernamePost
+    createUsernamePost,
 }
