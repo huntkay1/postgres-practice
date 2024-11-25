@@ -19,5 +19,9 @@ async function getFilteredUsernames(username) {
     return result.rows; // Return the rows matching the query
 }
 
-module.exports = { getAllUsernames, insertUsername, getFilteredUsernames };
+async function deleteUsers() {
+    await pool.query('DELETE FROM usernames;')
+}
+
+module.exports = { getAllUsernames, insertUsername, getFilteredUsernames, deleteUsers };
 
